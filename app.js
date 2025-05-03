@@ -16,9 +16,9 @@ const templatePath = path.join(__dirname, "mY.png");
 const editorPath = path.join(__dirname, "edit.png");
 const yappingPath = path.join(__dirname, "yapping.png");
 
-app.get("/mlbb/:username", async (req, res) => {
+app.get("/mlbb", async (req, res) => {
     const { username } = req.params;
-
+if (!username) return res.status(400).json
     try {
         const img = await loadImage(templatePath);
         const canvas = createCanvas(img.width, img.height);
@@ -47,9 +47,9 @@ app.get("/mlbb/:username", async (req, res) => {
     }
 });
 
-app.get("/editor/:username", async (req, res) => {
+app.get("/editor", async (req, res) => {
     const { username } = req.params;
-
+if (!username) return res.status(400).json
     try {
         const img = await loadImage(editorPath);
         const canvas = createCanvas(img.width, img.height);
@@ -81,9 +81,9 @@ app.get("/editor/:username", async (req, res) => {
     }
 });
 
-app.get("/yapping/:username", async (req, res) => {
+app.get("/yapping", async (req, res) => {
     const { username } = req.params;
-
+        if (!username) return res.status(400).json
     try {
         const img = await loadImage(yappingPath);
         const canvas = createCanvas(img.width, img.height);
