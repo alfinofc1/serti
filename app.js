@@ -13,11 +13,13 @@ const aFontPath = path.join(__dirname, "Azonix.otf");
 registerFont(aFontPath, { family: "AFont" });
 
 const templatePath = path.join(__dirname, "mY.png");
+const tollolPath = path.join(__dirname, "template.png");
 const editorPath = path.join(__dirname, "edit.png");
 const yappingPath = path.join(__dirname, "yapping.png");
 
-app.get("/mlbb", async (req, res) => {
+app.get("/mlbb/:username", async (req, res) => {
     const { username } = req.params;
+
     try {
         const img = await loadImage(templatePath);
         const canvas = createCanvas(img.width, img.height);
@@ -46,9 +48,40 @@ app.get("/mlbb", async (req, res) => {
     }
 });
 
-app.get("/editor", async (req, res) => {
+app.get("/tolol/:username", async (req, res) => {
     const { username } = req.params;
-if (!username) return res.status(400).json
+
+    try {
+        const img = await loadImage(tollolPath);
+        const canvas = createCanvas(img.width, img.height);
+        const ctx = canvas.getContext("2d");
+
+        // Gambar template ke canvas
+        ctx.drawImage(img, 0, 0);
+
+        // Atur teks
+        ctx.font = "220px MyFont"; // Ukuran besar sesuai template
+        ctx.fillStyle = "white"; // Warna teks
+        ctx.textAlign = "left";
+
+        // Ukuran dan posisi teks
+        const x = 70; // Geser ke kanan sesuai template
+        const y = 570; // Posisi vertikal
+        ctx.fillText(username.toUpperCase(), x, y)
+
+        // Kirim gambar sebagai respons
+        res.set("Content-Type", "image/png");
+        res.send(canvas.toBuffer("image/png"));
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error processing image");
+    }
+});
+
+app.get("/editor/:username", async (req, res) => {
+    const { username } = req.params;
+
     try {
         const img = await loadImage(editorPath);
         const canvas = createCanvas(img.width, img.height);
@@ -80,9 +113,9 @@ if (!username) return res.status(400).json
     }
 });
 
-app.get("/yapping", async (req, res) => {
+app.get("/yapping/:username", async (req, res) => {
     const { username } = req.params;
-        if (!username) return res.status(400).json
+
     try {
         const img = await loadImage(yappingPath);
         const canvas = createCanvas(img.width, img.height);
