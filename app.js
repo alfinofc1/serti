@@ -59,15 +59,15 @@ app.get("/tolol/:username", async (req, res) => {
         // Gambar template ke canvas
         ctx.drawImage(img, 0, 0);
 
-        // Atur teks
-        ctx.font = "220px MyFont"; // Ukuran besar sesuai template
-        ctx.fillStyle = "white"; // Warna teks
-        ctx.textAlign = "left";
+        / Atur teks
+        ctx.font = "120px AFont"; // Ukuran besar sesuai template
+        ctx.fillStyle = "black"; // Warna teks
+        ctx.textAlign = "center"; // Pastikan teks rata tengah
 
-        // Ukuran dan posisi teks
-        const x = 70; // Geser ke kanan sesuai template
-        const y = 570; // Posisi vertikal
-        ctx.fillText(username.toUpperCase(), x, y)
+        // Hitung posisi tengah
+        const textWidth = ctx.measureText(username.toUpperCase()).width;
+        const x = img.width / 2; // Tengah gambar
+        const y = 600; // Posisi vertikal
 
         // Kirim gambar sebagai respons
         res.set("Content-Type", "image/png");
