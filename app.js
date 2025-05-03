@@ -18,7 +18,6 @@ const yappingPath = path.join(__dirname, "yapping.png");
 
 app.get("/mlbb", async (req, res) => {
     const { username } = req.params;
-if (!username) return res.status(400).json
     try {
         const img = await loadImage(templatePath);
         const canvas = createCanvas(img.width, img.height);
